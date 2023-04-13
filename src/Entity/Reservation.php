@@ -20,12 +20,12 @@ class Reservation
     /**
      * @ORM\Column(type="date")
      */
-    private $startDate;
+    private $startdate;
 
     /**
      * @ORM\Column(type="date")
      */
-    private $endDate;
+    private $enddate;
 
     /**
      * @ORM\Column(type="boolean")
@@ -44,31 +44,51 @@ class Reservation
      */
     private $moto;
 
+    /**
+     * @ORM\Column(type="time")
+     */
+    private $starthour;
+
+    /**
+     * @ORM\Column(type="time")
+     */
+    private $endhour;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $pickuplocation;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $returnlocation;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStartdate(): ?\DateTimeInterface
     {
-        return $this->startDate;
+        return $this->startdate;
     }
 
-    public function setStartDate(\DateTimeInterface $startDate): self
+    public function setStartdate(\DateTimeInterface $startdate): self
     {
-        $this->startDate = $startDate;
+        $this->startdate = $startdate;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEnddate(): ?\DateTimeInterface
     {
-        return $this->endDate;
+        return $this->enddate;
     }
 
-    public function setEndDate(\DateTimeInterface $endDate): self
+    public function setEnddate(\DateTimeInterface $enddate): self
     {
-        $this->endDate = $endDate;
+        $this->enddate = $enddate;
 
         return $this;
     }
@@ -105,6 +125,54 @@ class Reservation
     public function setMoto(?Moto $moto): self
     {
         $this->moto = $moto;
+
+        return $this;
+    }
+
+    public function getStarthour(): ?\DateTimeInterface
+    {
+        return $this->starthour;
+    }
+
+    public function setStarthour(\DateTimeInterface $starthour): self
+    {
+        $this->starthour = $starthour;
+
+        return $this;
+    }
+
+    public function getEndhour(): ?\DateTimeInterface
+    {
+        return $this->endhour;
+    }
+
+    public function setEndhour(\DateTimeInterface $endhour): self
+    {
+        $this->endhour = $endhour;
+
+        return $this;
+    }
+
+    public function getPickuplocation(): ?string
+    {
+        return $this->pickuplocation;
+    }
+
+    public function setPickuplocation(string $pickuplocation): self
+    {
+        $this->pickuplocation = $pickuplocation;
+
+        return $this;
+    }
+
+    public function getReturnlocation(): ?string
+    {
+        return $this->returnlocation;
+    }
+
+    public function setReturnlocation(string $returnlocation): self
+    {
+        $this->returnlocation = $returnlocation;
 
         return $this;
     }

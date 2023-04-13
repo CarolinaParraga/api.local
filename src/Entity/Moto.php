@@ -44,6 +44,11 @@ class Moto
      */
     private $reservations;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $price;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -134,6 +139,18 @@ class Moto
                 $reservation->setMoto(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }
