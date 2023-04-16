@@ -4,7 +4,7 @@ namespace App\BLL;
 
 use App\Entity\Moto;
 
-class MotoBLL
+class MotoBLL extends BaseBLL
 {
     public function actualizaMoto($moto, array $data){
         //$urlImagen = $this->getImagenActividad( $data);
@@ -24,4 +24,19 @@ class MotoBLL
         return $this->actualizaMoto($moto, $data);
     }
 
+
+    public function toArray(Moto $moto)
+    {
+        if ( is_null ($moto))
+            return null;
+
+        return [
+            'id' => $moto->getId(),
+            'brand' => $moto->getBrand(),
+            'carregistration' => $moto->getCarregistration(),
+            'color' => $moto->getColor(),
+            'model' => $moto->getModel(),
+            'price' => $moto->getPrice(),
+        ];
+    }
 }

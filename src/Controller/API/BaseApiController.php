@@ -19,7 +19,7 @@ class BaseApiController extends AbstractController
             throw new BadRequestHttpException('No se han recibido los datos');
         return $data;
     }
-
+    //metodo que devuelve la respuesta qu está guardada en el atributo data del json
     protected function getResponse(array $data=null, $statusCode = Response::HTTP_OK)
     {
         $response = new JsonResponse();

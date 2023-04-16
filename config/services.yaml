@@ -4,12 +4,17 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    images_directory: '%kernel.project_dir%/public/uploads/imgs/'
+    images_url: '/uploads/imgs/'
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $images_directory: '%images_directory%'
+            $images_url: '%images_url%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -22,3 +27,28 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    app.bll.baseBLL:
+        class: App\BLL\BaseBLL
+        abstract: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@validator'
+            - '@Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface'
+            - '@security.token_storage'
+            - '%images_directory%'
+            - '%images_url%'
+            - '@Symfony\Component\HttpFoundation\RequestStack'
+            - '@Symfony\Component\Security\Core\Security'
+
+    app.bll.motoBLL:
+        class: App\BLL\MotoBLL
+        parent: app.bll.baseBLL
+
+    app.bll.reservationBLL:
+        class: App\BLL\ReservationBLL
+        parent: app.bll.baseBLL
+
+    app.bll.userBLL:
+        class: App\BLL\UserBLL
+        parent: app.bll.baseBLL
