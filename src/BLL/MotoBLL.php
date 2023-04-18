@@ -6,7 +6,7 @@ use App\Entity\Moto;
 
 class MotoBLL extends BaseBLL
 {
-    public function actualizaMoto($moto, array $data){
+    public function actualizaMoto(Moto $moto, array $data){
         //$urlImagen = $this->getImagenActividad( $data);
         //$categoria = $this->em->getRepository(Categoria::class)->find($data['categoria']);
         //$user = $this->getUsuario();
@@ -39,4 +39,23 @@ class MotoBLL extends BaseBLL
             'price' => $moto->getPrice(),
         ];
     }
+
+    Public function getMotos(?string $order, ?string $carregistration , ?string $model,
+                             ?string $color, ?string $brand, ?int $price)
+    {
+        //$user = $this->getUser();
+        $motos = $this->em->getRepository(Moto::class)->findMotos($order, $carregistration, $model,
+            $color, $brand, $price);
+
+        return $this->entitiesToArray($motos);
+    }
+
+    /*public function checkAccessToMoto(Moto $moto)
+    {
+        if ($this->checkRoleAdmin() === false) {
+            $usuario = $this->getUser();
+            if ($usuario->getId() !== $moto->getUsuario()->getId())
+                throw new AccessDeniedHttpException();
+        }
+    }*/
 }
