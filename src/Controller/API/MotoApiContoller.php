@@ -23,7 +23,7 @@ class MotoApiContoller extends BaseApiController
 
 
     /**
-     * @Route("/one/{id}.{_format}", name="get_moto",
+     * @Route("/one_moto/{id}.{_format}", name="get_moto",
      * requirements={
      * "id": "\d+",
      * "_format": "json"
