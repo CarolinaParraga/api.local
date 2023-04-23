@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Moto;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
@@ -40,6 +41,8 @@ class MotoRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+
 
     public function findMotos(
         ?string $order, ?string $carregistration , ?string $model, ?string $color,

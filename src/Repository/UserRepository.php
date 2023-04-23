@@ -56,6 +56,49 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->add($user, true);
     }
 
+    public function findUsers(
+        ?string $order, ?string $email , ?int $phone, ?string $license,
+        ?string $name)
+    {
+        $qb = $this->createQueryBuilder('user');
+
+        if (!is_null($email) && $email !== '') {
+            $qb ->andWhere(
+                $qb->expr()->like('user.email', ':val')
+            )->setParameter('val', '%'.$email.'%');
+        }
+
+        if (!is_null($phone) && $phone !== '') {
+            $qb ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('user.phone', ':val')
+                )
+            )->setParameter('val', '%'.$phone.'%');
+        }
+
+        if (!is_null($license) && $license !== '') {
+            $qb ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('user.license', ':val')
+                )
+            )->setParameter('val', '%'.$license.'%');
+        }
+
+        if (!is_null($name) && $name !== '') {
+            $qb ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('user.name', ':val')
+                )
+            )->setParameter('val', '%'.$name.'%');
+        }
+
+        if (!is_null($order)) {
+            $qb->addOrderBy('moto.' . $order, 'ASC');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

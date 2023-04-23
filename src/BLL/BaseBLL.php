@@ -92,20 +92,22 @@ abstract class BaseBLL
 
         return $arr;
     }
-
-    /*protected function getUser() : User
+    //obtener el usuario logueado a partir de token que recibe el servidor
+    //el token se guarda en front y se envia con cada petición que se realiza al servidor
+    //para ello se necesita el servicio tokenstorage
+    protected function getUser() : User
     {
         return $this->tokenStorage->getToken()->getUser();
     }
 
     protected function checkRoleAdmin() {
-        $usuario = $this->getUser();
+        $user = $this->getUser();
 
-        if ($usuario->hasRole('ROLE_ADMIN') === true)
+        if ($user->hasRole('ROLE_ADMIN') === true)
             return true;
 
         return false;
-    }*/
+    }
 
     
 

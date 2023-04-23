@@ -16,14 +16,14 @@ class ReservationApiController extends BaseApiController
     /**
      * @param $reservationRepository
      */
-    public function __construct($reservationRepository)
+    public function __construct(ReservationRepository $reservationRepository)
     {
         $this->reservationRepository = $reservationRepository;
     }
 
 
     /**
-     * @Route("/one_reservation/{id}.{_format}", name="get_reservation",
+     * @Route("/reservations/{id}.{_format}", name="get_reservation",
      * requirements={
      * "id": "\d+",
      * "_format": "json"
@@ -35,6 +35,21 @@ class ReservationApiController extends BaseApiController
     {
         //$motoBLL->checkAccessToActividad($moto);
         return $this->getResponse($reservationBLL->toArray($reservation));
+    }
+
+    /**
+     * @Route("/reservations/{startdate}/{enddate}.{_format}", name="get_available",
+     * requirements={
+     * "_format": "json"
+     * },
+     * defaults={"_format": "json"},
+     * methods={"GET"})
+     */
+    public function getAvailable(ReservationBLL $reservationBLL, string $startdate, string $enddate)
+    {
+        $reservations = $reservationBLL->getAvailability($startdate, $enddate);
+
+        return $this->getResponse($reservations);
     }
     /**
      * @Route("/reservations.{_format}",
@@ -54,7 +69,7 @@ class ReservationApiController extends BaseApiController
     }
 
     /**
-     * @Route("/reservation/{id}", name="get_one_reservation", methods={"GET"})
+     * @Route("/one_reservation/{id}", name="get_one_reservation", methods={"GET"})
      */
     public function get($id): JsonResponse
     {

@@ -4,16 +4,17 @@ namespace App\BLL;
 use App\Entity\Moto;
 use App\Entity\Reservation;
 use App\Entity\User;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class ReservationBLL extends BaseBLL
 {
     public function actualizaReservation(Reservation $reservation, array $data){
         //$urlImagen = $this->getImagenActividad( $data);
-        $customer = $this->em->getRepository(User::class)->find($data['customer']);
-        $moto = $this->em->getRepository(moto::class)->find($data['moto']);
-        //$user = $this->getUsuario();
+        //$customer = $this->em->getRepository(User::class)->find($data['customer']);
+        $moto = $this->em->getRepository(Moto::class)->find($data['moto']);
+        $user = $this->getUser();
         //$reservation = new Reservation();
-        $reservation->setCustomer($customer);
+        $reservation->setCustomer($user);
         $reservation->setCustomer($moto);
         $reservation->setStartdate($data['startdate']);
         $reservation->setStarthour($data['starthour']);
@@ -51,11 +52,11 @@ class ReservationBLL extends BaseBLL
         ];
     }
 
-    Public function getReservations(?string $order, ?string $moto , ?string $customer,
+    Public function getReservations(?string $order, ?string $moto,
                              ?string $pickuplocation, ?string $returnlocation, ?string $startdate,
     ?string $enddate, ?string $starthour, ?string $endhour, ?bool $state)
     {
-        //$user = $this->getUser();
+        $customer = $this->getUser();
         $reservations = $this->em->getRepository(Reservation::class)->findReservations
         ($order, $moto, $customer, $pickuplocation, $returnlocation, $startdate, $enddate, $starthour, $endhour,
             $state);
@@ -63,13 +64,18 @@ class ReservationBLL extends BaseBLL
         return $this->entitiesToArray($reservations);
     }
 
-    /*public function checkAccessToMoto(Moto $moto)
+    Public function getAvailability(string $startdate, string $enddate){
+        $reservations = $this->em->getRepository(Reservation::class)->findAvailability($startdate, $enddate);
+        return $this->entitiesToArray($reservations);
+    }
+
+    public function checkAccessToReservation(Reservation $reservation)
     {
         if ($this->checkRoleAdmin() === false) {
-            $usuario = $this->getUser();
-            if ($usuario->getId() !== $moto->getUsuario()->getId())
+            $user = $this->getUser();
+            if ($user->getId() !== $reservation->getCustomer()->getId())
                 throw new AccessDeniedHttpException();
         }
-    }*/
+    }
 
 }

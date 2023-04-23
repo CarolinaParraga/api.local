@@ -23,7 +23,7 @@ class MotoApiContoller extends BaseApiController
 
 
     /**
-     * @Route("/one_moto/{id}.{_format}", name="get_moto",
+     * @Route("/motos/{id}.{_format}", name="get_moto",
      * requirements={
      * "id": "\d+",
      * "_format": "json"
@@ -54,7 +54,7 @@ class MotoApiContoller extends BaseApiController
     }
 
     /**
-     * @Route("/moto/{id}", name="get_one_moto", methods={"GET"})
+     * @Route("/one_moto/{id}", name="get_one_moto", methods={"GET"})
      */
     public function get($id): JsonResponse
     {
