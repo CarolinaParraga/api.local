@@ -21,6 +21,8 @@ class MotoBLL extends BaseBLL
         $moto->setColor($data['color']);
         $moto->setBrand($data['brand']);
         $moto->setPrice($data['price']);
+        $moto->setPhoto($data['photo']);
+        $moto->setDescription($data['description']);
 
         return $this->guardaValidando($moto);
     }
@@ -69,15 +71,17 @@ class MotoBLL extends BaseBLL
             'color' => $moto->getColor(),
             'model' => $moto->getModel(),
             'price' => $moto->getPrice(),
+            'photo' => $moto->getPhoto(),
+            'description' => $moto->getDescription(),
         ];
     }
 
     Public function getMotos(?string $order, ?string $carregistration , ?string $model,
-                             ?string $color, ?string $brand, ?int $price)
+                             ?string $color, ?string $brand, ?int $price, ?string $photo, ?string $description)
     {
         //$user = $this->getUser();
         $motos = $this->em->getRepository(Moto::class)->findMotos($order, $carregistration, $model,
-            $color, $brand, $price);
+            $color, $brand, $price, $photo, $description);
 
         return $this->entitiesToArray($motos);
     }

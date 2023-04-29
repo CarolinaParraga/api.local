@@ -89,8 +89,10 @@ class MotoApiContoller extends BaseApiController
         $color = $request->query->get('color');
         $brand = $request->query->get('brand');
         $price = $request->query->get('price');
+        $photo = $request->query->get('photo');
+        $description = $request->query->get('description');
 
-        $motos = $motoBLL->getMotos($order, $carregistration , $model, $color, $brand, $price);
+        $motos = $motoBLL->getMotos($order, $carregistration , $model, $color, $brand, $price, $photo, $description);
 
         return $this->getResponse($motos);
     }
@@ -105,6 +107,7 @@ class MotoApiContoller extends BaseApiController
      */
     public function update(Request $request, Moto $moto, MotoBLL $motoBLL)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'El usuario no está autorizado');
 
         $data = $this->getContent($request);
 
@@ -124,6 +127,7 @@ class MotoApiContoller extends BaseApiController
      */
     public function delete(Moto $moto, MotoBLL $motoBLL)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'El usuario no está autorizado');
         $motoBLL->delete($moto);
         return $this->getResponse(null, Response:: HTTP_NO_CONTENT );
     }

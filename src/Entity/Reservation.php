@@ -36,7 +36,7 @@ class Reservation
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $customer;
+    private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Moto::class, inversedBy="reservations")
@@ -45,12 +45,12 @@ class Reservation
     private $moto;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="string")
      */
     private $starthour;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="string")
      */
     private $endhour;
 
@@ -105,14 +105,14 @@ class Reservation
         return $this;
     }
 
-    public function getCustomer(): ?User
+    public function getUser(): ?User
     {
-        return $this->customer;
+        return $this->user;
     }
 
-    public function setCustomer(?User $customer): self
+    public function setUser(?User $user): self
     {
-        $this->customer = $customer;
+        $this->user = $user;
 
         return $this;
     }
@@ -129,24 +129,24 @@ class Reservation
         return $this;
     }
 
-    public function getStarthour(): ?\DateTimeInterface
+    public function getStarthour(): ?string
     {
         return $this->starthour;
     }
 
-    public function setStarthour(\DateTimeInterface $starthour): self
+    public function setStarthour(string $starthour): self
     {
         $this->starthour = $starthour;
 
         return $this;
     }
 
-    public function getEndhour(): ?\DateTimeInterface
+    public function getEndhour(): ?string
     {
         return $this->endhour;
     }
 
-    public function setEndhour(\DateTimeInterface $endhour): self
+    public function setEndhour(string $endhour): self
     {
         $this->endhour = $endhour;
 

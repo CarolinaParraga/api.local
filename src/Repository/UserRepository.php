@@ -93,7 +93,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
 
         if (!is_null($order)) {
-            $qb->addOrderBy('moto.' . $order, 'ASC');
+            $qb->addOrderBy('user.' . $order, 'ASC');
         }
 
         return $qb->getQuery()->getResult();

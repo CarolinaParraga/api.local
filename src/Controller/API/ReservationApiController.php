@@ -33,12 +33,12 @@ class ReservationApiController extends BaseApiController
      */
     public function getOne(Reservation $reservation, ReservationBLL $reservationBLL)
     {
-        //$motoBLL->checkAccessToActividad($moto);
+        $reservationBLL->checkAccessToReservation($reservation);
         return $this->getResponse($reservationBLL->toArray($reservation));
     }
 
     /**
-     * @Route("/reservations/{startdate}/{enddate}.{_format}", name="get_available",
+     * @Route("/reservations/available.{_format}", name="get_available",
      * requirements={
      * "_format": "json"
      * },
@@ -77,12 +77,12 @@ class ReservationApiController extends BaseApiController
         $data = [
             'id' => $reservation->getId(),
             'moto' => $reservation->getMoto(),
-            'customer' => $reservation->getCustomer(),
+            'customer' => $reservation->getUser(),
             'pickuplocation' => $reservation->getPickuplocation(),
             'returnlocation' => $reservation->getreturnlocation(),
-            'startdate' => $reservation->getStartdate(),
+            'startdate' => $reservation->getStartdate()->format('d/m/Y'),
             'starthour' => $reservation->getStarthour(),
-            'enddate' => $reservation->getEnddate(),
+            'enddate' => $reservation->getEnddate()->format('d/m/Y'),
             'endhour' => $reservation->getEndhour(),
             'status' => $reservation->isStatus(),
         ];
@@ -103,8 +103,9 @@ class ReservationApiController extends BaseApiController
     public function getAll(
         Request $request, ReservationBLL $reservationBLL, string $order='startdate')
     {
+        $user = $this->getUser();
         $moto = $request->query->get('moto');
-        $customer = $request->query->get('customer');
+        //$user = $request->query->get('user');
         $pickuplocation = $request->query->get('pickuplocation');
         $returnlocation = $request->query->get('returnlocation');
         $startdate = $request->query->get('startdate');
@@ -113,8 +114,8 @@ class ReservationApiController extends BaseApiController
         $endhour = $request->query->get('endhour');
         $state = $request->query->get('state');
 
-        $reservations = $reservationBLL->getReservations($order, $moto , $customer, $pickuplocation,
-            $returnlocation, $startdate, $enddate, $starthour, $endhour, $state);
+        $reservations = $reservationBLL->getReservations($order, $moto, $pickuplocation,
+            $returnlocation, $startdate, $enddate, $starthour, $endhour, $user, $state);
 
         return $this->getResponse($reservations);
     }
@@ -129,6 +130,7 @@ class ReservationApiController extends BaseApiController
      */
     public function update(Request $request, Reservation $reservation, ReservationBLL $reservationBLL)
     {
+        $reservationBLL->checkAccessToReservation($reservation);
 
         $data = $this->getContent($request);
 
@@ -148,6 +150,7 @@ class ReservationApiController extends BaseApiController
      */
     public function delete(Reservation $reservation, ReservationBLL $reservationBLL)
     {
+        $reservationBLL->checkAccessToReservation($reservation);
         $reservationBLL->delete($reservation);
         return $this->getResponse(null, Response:: HTTP_NO_CONTENT );
     }

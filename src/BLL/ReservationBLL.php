@@ -4,6 +4,7 @@ namespace App\BLL;
 use App\Entity\Moto;
 use App\Entity\Reservation;
 use App\Entity\User;
+use DateTime;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class ReservationBLL extends BaseBLL
@@ -13,12 +14,15 @@ class ReservationBLL extends BaseBLL
         //$customer = $this->em->getRepository(User::class)->find($data['customer']);
         $moto = $this->em->getRepository(Moto::class)->find($data['moto']);
         $user = $this->getUser();
+        $startdate = DateTime::createFromFormat('d/m/Y', $data['startdate']);
+        $enddate = DateTime::createFromFormat('d/m/Y', $data['enddate']);
+
         //$reservation = new Reservation();
-        $reservation->setCustomer($user);
-        $reservation->setCustomer($moto);
-        $reservation->setStartdate($data['startdate']);
+        $reservation->setUser($user);
+        $reservation->setMoto($moto);
+        $reservation->setStartdate($startdate);
         $reservation->setStarthour($data['starthour']);
-        $reservation->setEnddate($data['enddate']);
+        $reservation->setEnddate($enddate);
         $reservation->setEndhour($data['endhour']);
         $reservation->setPickuplocation($data['pickuplocation']);
         $reservation->setReturnlocation($data['returnlocation']);
@@ -40,13 +44,15 @@ class ReservationBLL extends BaseBLL
 
         return [
             'id' => $reservation->getId(),
-            'moto' => $reservation->getMoto(),
-            'customer' => $reservation->getCustomer(),
+            'moto' => $reservation->getMoto()->getModel(),
+            'user' => $reservation->getUser()->getEmail(),
             'pickuplocation' => $reservation->getPickuplocation(),
             'returnlocation' => $reservation->getreturnlocation(),
-            'startdate' => $reservation->getStartdate(),
+            'startdate' => is_null($reservation->getStartdate()) ? '' :
+                $reservation->getStartdate()->format('d/m/Y'),
             'starthour' => $reservation->getStarthour(),
-            'enddate' => $reservation->getEnddate(),
+            'enddate' => is_null($reservation->getStartdate()) ? '' :
+                $reservation->getStartdate()->format('d/m/Y'),
             'endhour' => $reservation->getEndhour(),
             'status' => $reservation->isStatus(),
         ];
@@ -54,11 +60,11 @@ class ReservationBLL extends BaseBLL
 
     Public function getReservations(?string $order, ?string $moto,
                              ?string $pickuplocation, ?string $returnlocation, ?string $startdate,
-    ?string $enddate, ?string $starthour, ?string $endhour, ?bool $state)
+    ?string $enddate, ?string $starthour, ?string $endhour, $user, ?bool $state)
     {
-        $customer = $this->getUser();
+        //$user = $this->getUser();
         $reservations = $this->em->getRepository(Reservation::class)->findReservations
-        ($order, $moto, $customer, $pickuplocation, $returnlocation, $startdate, $enddate, $starthour, $endhour,
+        ($order, $moto, $user, $pickuplocation, $returnlocation, $startdate, $enddate, $starthour, $endhour,
             $state);
 
         return $this->entitiesToArray($reservations);
@@ -73,7 +79,7 @@ class ReservationBLL extends BaseBLL
     {
         if ($this->checkRoleAdmin() === false) {
             $user = $this->getUser();
-            if ($user->getId() !== $reservation->getCustomer()->getId())
+            if ($user->getId() !== $reservation->getUser()->getId())
                 throw new AccessDeniedHttpException();
         }
     }

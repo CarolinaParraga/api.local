@@ -204,7 +204,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->reservations->contains($reservation)) {
             $this->reservations[] = $reservation;
-            $reservation->setCustomer($this);
+            $reservation->setUser($this);
         }
 
         return $this;
@@ -214,8 +214,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->reservations->removeElement($reservation)) {
             // set the owning side to null (unless already changed)
-            if ($reservation->getCustomer() === $this) {
-                $reservation->setCustomer(null);
+            if ($reservation->getUser() === $this) {
+                $reservation->setUser(null);
             }
         }
 

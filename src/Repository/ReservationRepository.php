@@ -45,8 +45,8 @@ class ReservationRepository extends ServiceEntityRepository
     private function addUserFilter(QueryBuilder $qb, User $user)
     {
         if (in_array('ROLE_ADMIN', $user->getRoles()) === false) {
-            $qb->innerJoin('reservation.customer', 'user')
-                ->andWhere($qb->expr()->eq('reservation.customer', ':user'))
+            $qb->innerJoin('reservation.user', 'user')
+                ->andWhere($qb->expr()->eq('reservation.user', ':user'))
                 ->setParameter('user', $user);
         }
     }
@@ -60,19 +60,20 @@ class ReservationRepository extends ServiceEntityRepository
             $qb ->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->between('reservation.startdate', $dtFechaInicial, $dtFechaFinal),
-                    $qb->expr()->between('reservation.enddate', $dtFechaInicial, $dtFechaFinal),
-                    $qb->expr()->andX(
+                    $qb->expr()->between('reservation.enddate', $dtFechaInicial, $dtFechaFinal)
+                    /*$qb->expr()->andX(
                         $qb->expr()->lte('reservation.startdate', $dtFechaInicial ),
-                        $qb->expr()->gte('reservation.enddate', $dtFechaFinal ))
+                        $qb->expr()->gte('reservation.enddate', $dtFechaFinal ))*/
                 )
             );
 
 
         }
+        return $qb->getQuery()->getResult();
 
     }
 
-    public function findReservations(?string $order, ?string $moto , ?User $customer,
+    public function findReservations(?string $order, ?string $moto , ?User $user,
                                      ?string $pickuplocation, ?string $returnlocation,
                                      ?string $startdate, ?string $enddate, ?string $starthour,
                                      ?string $endhour, ?bool $state)
@@ -132,11 +133,11 @@ class ReservationRepository extends ServiceEntityRepository
             )->setParameter('val', '%'.$endhour.'%');
         }
 
-        if (!is_null($customer))
-            $this->addUserFilter($qb, $customer);
+        if (!is_null($user))
+            $this->addUserFilter($qb, $user);
 
         if (!is_null($order)) {
-            $qb->addOrderBy('startdate' . $order, 'ASC');
+            $qb->addOrderBy('reservation.' . $order, 'ASC');
         }
 
         return $qb->getQuery()->getResult();

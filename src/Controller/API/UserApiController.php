@@ -71,6 +71,7 @@ class UserApiController extends BaseApiController
     public function getAll(
         Request $request, UserBLL $userBLL, string $order='email')
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'El usuario no está autorizado');
         $email = $request->query->get('email');
         $phone = $request->query->get('phone');
         $license = $request->query->get('license');

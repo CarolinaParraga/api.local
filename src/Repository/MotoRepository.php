@@ -46,7 +46,7 @@ class MotoRepository extends ServiceEntityRepository
 
     public function findMotos(
         ?string $order, ?string $carregistration , ?string $model, ?string $color,
-        ?string $brand, ?int $price)
+        ?string $brand, ?int $price, ?string $photo, ?string $description)
     {
         $qb = $this->createQueryBuilder('moto');
 
@@ -86,6 +86,22 @@ class MotoRepository extends ServiceEntityRepository
                     $qb->expr()->like('moto.price', ':val')
                 )
             )->setParameter('val', '%'.$price.'%');
+        }
+
+        if (!is_null($photo) && $photo !== '') {
+            $qb ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('moto.photo', ':val')
+                )
+            )->setParameter('val', '%'.$photo.'%');
+        }
+
+        if (!is_null($description) && $description !== '') {
+            $qb ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('moto.description', ':val')
+                )
+            )->setParameter('val', '%'.$description.'%');
         }
 
         if (!is_null($order)) {
