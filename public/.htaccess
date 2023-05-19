@@ -16,6 +16,11 @@ DirectoryIndex index.php
 <IfModule mod_negotiation.c>
     Options -MultiViews
 </IfModule>
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header always set Access-Control-Allow-Headers "*, Authorization, authorization"
+</IfModule>
 
 <IfModule mod_rewrite.c>
     # This Option needs to be enabled for RewriteRule, otherwise it will show an error like

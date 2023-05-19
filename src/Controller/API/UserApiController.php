@@ -45,7 +45,7 @@ class UserApiController extends BaseApiController
     //datos de usuario logueado
 
     /**
-     * @Route("/profile.{_format}",
+     * @Route("/users/profile.{_format}",
      *     name="profile",
      *     requirements={"_format": "json"},
      *     defaults={"_format": "json"},
@@ -117,7 +117,7 @@ class UserApiController extends BaseApiController
     }
 
     /**
-     * @Route("/profile/password.{_format}",
+     * @Route("/users/profile/password.{_format}",
      *     name="cambia_password",
      *     requirements={"_format": "json"},
      *     defaults={"_format": "json"},
