@@ -53,7 +53,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $license;
 
     /**
-     * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="customer", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="user", orphanRemoval=true)
      */
     private $reservations;
 

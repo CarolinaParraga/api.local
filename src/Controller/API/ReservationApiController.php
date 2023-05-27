@@ -77,12 +77,12 @@ class ReservationApiController extends BaseApiController
         $data = [
             'id' => $reservation->getId(),
             'moto' => $reservation->getMoto(),
-            'customer' => $reservation->getUser(),
+            'user' => $reservation->getUser(),
             'pickuplocation' => $reservation->getPickuplocation(),
             'returnlocation' => $reservation->getreturnlocation(),
-            'startdate' => $reservation->getStartdate()->format('d/m/Y'),
+            'startdate' => $reservation->getStartdate()->format('Y-m-d'),
             'starthour' => $reservation->getStarthour(),
-            'enddate' => $reservation->getEnddate()->format('d/m/Y'),
+            'enddate' => $reservation->getEnddate()->format('Y-m-d'),
             'endhour' => $reservation->getEndhour(),
             'status' => $reservation->isStatus(),
         ];
@@ -118,6 +118,23 @@ class ReservationApiController extends BaseApiController
             $returnlocation, $startdate, $enddate, $starthour, $endhour, $user, $state);
 
         return $this->getResponse($reservations);
+    }
+
+    /**
+     * @Route("/reservations/availability.{_format}",
+     *     name="get_reservations_availability",
+     *     defaults={"_format": "json"},
+     *     requirements={"_format": "json"},
+     *     methods={"GET"}
+     * )
+     * 
+     */
+    public function checkAvailability(Request $request, ReservationBLL $reservationBLL){
+        
+        $reservations = $reservationBLL->getAvailability();
+
+        return $this->getResponse($reservations);
+
     }
 
     /**

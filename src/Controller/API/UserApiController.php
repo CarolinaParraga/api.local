@@ -4,6 +4,8 @@ namespace App\Controller\API;
 
 use App\BLL\UserBLL;
 use App\Entity\User;
+use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -11,6 +13,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserApiController extends BaseApiController
 {
+    private $userRepository;
+
+    /**
+     * @param $userRepository
+     */
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
+
     /**
      * @Route("/auth/register.{_format}",
      *     name="register",

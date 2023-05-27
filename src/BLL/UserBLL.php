@@ -21,8 +21,6 @@ class UserBLL extends BaseBLL
     }*/
 
     public function actualizaUser(User $user, array $data){
-        //$urlImagen = $this->getImagenActividad( $data);
-        //$categoria = $this->em->getRepository(Categoria::class)->find($data['categoria']);
         //$user = $this->getUsuario();
         //$moto = new Moto();
         $user->setPassword($this->encoder->hashPassword($user, $data['password']));

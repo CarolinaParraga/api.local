@@ -14,8 +14,8 @@ class ReservationBLL extends BaseBLL
         //$customer = $this->em->getRepository(User::class)->find($data['customer']);
         $moto = $this->em->getRepository(Moto::class)->find($data['moto']);
         $user = $this->getUser();
-        $startdate = DateTime::createFromFormat('d/m/Y', $data['startdate']);
-        $enddate = DateTime::createFromFormat('d/m/Y', $data['enddate']);
+        $startdate = DateTime::createFromFormat('Y-m-d', $data['startdate']);
+        $enddate = DateTime::createFromFormat('Y-m-d', $data['enddate']);
 
         //$reservation = new Reservation();
         $reservation->setUser($user);
@@ -49,10 +49,10 @@ class ReservationBLL extends BaseBLL
             'pickuplocation' => $reservation->getPickuplocation(),
             'returnlocation' => $reservation->getreturnlocation(),
             'startdate' => is_null($reservation->getStartdate()) ? '' :
-                $reservation->getStartdate()->format('d/m/Y'),
+                $reservation->getStartdate()->format('Y-m-d'),
             'starthour' => $reservation->getStarthour(),
-            'enddate' => is_null($reservation->getStartdate()) ? '' :
-                $reservation->getStartdate()->format('d/m/Y'),
+            'enddate' => is_null($reservation->getEnddate()) ? '' :
+                $reservation->getEnddate()->format('Y-m-d'),
             'endhour' => $reservation->getEndhour(),
             'status' => $reservation->isStatus(),
         ];
@@ -70,8 +70,8 @@ class ReservationBLL extends BaseBLL
         return $this->entitiesToArray($reservations);
     }
 
-    Public function getAvailability(string $startdate, string $enddate){
-        $reservations = $this->em->getRepository(Reservation::class)->findAvailability($startdate, $enddate);
+    Public function getAvailability(){
+        $reservations = $this->em->getRepository(Reservation::class)->findAll();
         return $this->entitiesToArray($reservations);
     }
 
