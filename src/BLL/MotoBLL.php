@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Security;
 class MotoBLL extends BaseBLL
 {
     public function actualizaMoto(Moto $moto, array $data){
-        //$urlImagen = $this->getImagenMoto( $data);
+        $urlImagen = $this->getImagenMoto( $data);
         //$categoria = $this->em->getRepository(Categoria::class)->find($data['categoria']);
         //$user = $this->getUsuario();
         //$moto = new Moto();
@@ -21,15 +21,17 @@ class MotoBLL extends BaseBLL
         $moto->setColor($data['color']);
         $moto->setBrand($data['brand']);
         $moto->setPrice($data['price']);
-        $moto->setPhoto($data['photo']);
+        //$moto->setPhoto($data['photo']);
+        //$moto->setPhoto($data['photo']);
+        $moto->setPhoto($urlImagen);
         $moto->setDescription($data['description']);
 
         return $this->guardaValidando($moto);
     }
 
-    private function getImagenMoto(Request $request, array $data)
+    private function getImagenMoto(array $data)
     {
-        $arr_imagen = explode (',', $data['imagen']);
+        $arr_imagen = explode (',', $data['photo']);
         if ( count ($arr_imagen) < 2)
             throw new BadRequestHttpException('formato de imagen incorrecto');
 
@@ -37,10 +39,10 @@ class MotoBLL extends BaseBLL
         if (is_null($imagen))
             throw new BadRequestHttpException('No se ha recibido la imagen');
 
-        $fileName = $data['nombre'].'.jpg';
+        $fileName = $data['model'].'.jpg';
         $filePath = $this->images_directory . $fileName;
-        $urlImagen = $request->getUriForPath($filePath);
-        //$urlImagen = $this->images_url . $fileName;
+        //$urlImagen = $request->getUriForPath($filePath);
+        $urlImagen = 'http://api.local'. $this->images_url . $fileName;
         $ifp = fopen ($filePath, "wb");
         if (!$ifp)
             throw new BadRequestHttpException('No se ha podido guardar la imagen');

@@ -46,6 +46,7 @@ class MotoApiContoller extends BaseApiController
      */
     public function post(Request $request, MotoBLL $motoBLL)
     {
+        //$this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'El usuario no está autorizado');
         $data = $this->getContent($request);
 
         $moto = $motoBLL->nueva($data);
