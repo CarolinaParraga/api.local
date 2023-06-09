@@ -63,8 +63,8 @@ security:
         # - { path: ^/api/v1/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v1/auth/(login|register), roles: PUBLIC_ACCESS }
         - { path: ^/api/v1/motos,       roles: PUBLIC_ACCESS }
-        - { path: ^/api/users,       roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/api/reservations,       roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/v1/users,       roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/v1/reservations,       roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/api,       roles: PUBLIC_ACCESS }
         # - { path: ^/api/v1/users, roles: ROLE_ADMIN}
         # - { path: ^/admin, roles: ROLE_ADMIN }

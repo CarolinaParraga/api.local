@@ -6,23 +6,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserBLL extends BaseBLL
 {
-    /*public function nuevo(string $email, string $password, int $phone, string $license, string $name)
-    {
-        $usuario = new User();
-        //guarda en password introducido encriptado
-        $usuario->setPassword($this->encoder->hashPassword($usuario, $password));
-        $usuario->setEmail($email);
-        $usuario->setRoles(['ROLE_USER']);
-        $usuario->setPhone($phone);
-        $usuario->setLicense($license);
-        $usuario->setName($name);
-
-        return $this->guardaValidando($usuario);
-    }*/
-
+  
     public function actualizaUser(User $user, array $data){
-        //$user = $this->getUsuario();
-        //$moto = new Moto();
+        
         $user->setPassword($this->encoder->hashPassword($user, $data['password']));
         $user->setEmail($data['email']);
         $user->setRoles(['ROLE_USER']);

@@ -11,7 +11,6 @@ class ReservationBLL extends BaseBLL
 {
     public function actualizaReservation(Reservation $reservation, array $data){
         //$urlImagen = $this->getImagenActividad( $data);
-        //$customer = $this->em->getRepository(User::class)->find($data['customer']);
         $moto = $this->em->getRepository(Moto::class)->find($data['moto']);
         $user = $this->getUser();
         $startdate = DateTime::createFromFormat('Y-m-d', $data['startdate']);
