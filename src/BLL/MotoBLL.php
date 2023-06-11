@@ -13,16 +13,13 @@ class MotoBLL extends BaseBLL
 {
     public function actualizaMoto(Moto $moto, array $data){
         $urlImagen = $this->getImagenMoto( $data);
-        //$categoria = $this->em->getRepository(Categoria::class)->find($data['categoria']);
-        //$user = $this->getUsuario();
+     
         //$moto = new Moto();
         $moto->setCarregistration($data['carregistration']);
         $moto->setModel($data['model']);
         $moto->setColor($data['color']);
         $moto->setBrand($data['brand']);
         $moto->setPrice($data['price']);
-        //$moto->setPhoto($data['photo']);
-        //$moto->setPhoto($data['photo']);
         $moto->setPhoto($urlImagen);
         $moto->setDescription($data['description']);
 
