@@ -1,41 +1,45 @@
 
-Requirements
+Backend API REST project for Web application for an electric motorcycle company
+## Requirements
 PHP 8.1.0 or higher;
 and the usual Symfony application requirements.
 
-Installation
+## Installation
 
 Option 1. Download Symfony CLI and use the symfony binary installed on your computer to run this command:
 
-$ symfony new --demo my_project
+`symfony new api.local`
 Option 2. Download Composer and use the composer binary installed on your computer to run these commands:
 
-# you can create a new project based on the Symfony Demo project...
-$ composer create-project symfony/symfony-demo my_project
+you can create a new project...
+`composer create-project api.local`
 
-# ...or you can clone the code repository and install its dependencies
-$ git clone https://github.com/symfony/demo.git my_project
-$ cd my_project/
-$ composer install
+...or you can clone the code repository and install its dependencies
+`git clone https://github.com/CarolinaParraga/api.local.git`
+`composer install`
 
+## .env
 
-Usage
+DATABASE_URL="mysql://root:@127.0.0.1:3306/db_name?serverVersion=?&charset=?"
+
+## Usage
 There's no need to configure anything before running the application. There are 2 different ways of running this application depending on your needs:
 
 Option 1. Download Symfony CLI and run this command:
 
-$ cd my_project/
-$ symfony serve
+`cd my_project/`
+`symfony serve`
 Then access the application in your browser at the given URL (https://localhost:8000 by default).
 
 Option 2. Use a web server like Nginx or Apache to run the application (read the documentation about configuring a web server for Symfony).
 
 On your local machine, you can run this command to use the built-in PHP web server:
 
-$ cd my_project/
-$ php -S localhost:8000 -t public/
-Tests
+`cd my_project/`
+`php -S localhost:8000 -t public/`
+
+## Tests
 Execute this command to run tests:
 
-$ cd my_project/
-$ ./bin/phpunit
+`cd my_project/`
+`./bin/phpunit`
